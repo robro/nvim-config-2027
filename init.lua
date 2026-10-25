@@ -5,9 +5,9 @@ vim.g.mapleader = " "
 require('core')
 require('plugins')
 
-vim.cmd.colorscheme(colorscheme)
-
 vim.lsp.enable({
-    'lua_ls',
-    'ols',
+  'lua_ls',
+  'ols',
 })
+
+vim.cmd.colorscheme(colorscheme)

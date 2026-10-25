@@ -4,55 +4,55 @@ local M = {}
 --- @param list string[] List to check
 --- @param value string Value to check
 local function contains(list, value)
-    for _, v in ipairs(list) do
-        if v == value then
-            return true
-        end
+  for _, v in ipairs(list) do
+    if v == value then
+      return true
     end
-    return false
+  end
+  return false
 end
 
 --- Run require() on all modules in a directory
 --- @param dir string The directory to search
 --- @param ignore? string[] Table of names to ignore
 function M.require_all(dir, ignore)
-    if ignore == nil then ignore = {} end
-    local config_dir = vim.fs.joinpath(vim.fn.stdpath('config'), 'lua', dir)
+  if ignore == nil then ignore = {} end
+  local config_dir = vim.fs.joinpath(vim.fn.stdpath('config'), 'lua', dir)
 
-    for name, type in vim.fs.dir(config_dir) do
-        if type == 'file' and name:match('%.lua$') and name ~= 'init.lua' then
-            local cs_name = name:gsub('%.lua$', '')
-            if !contains(ignore, cs_name) then
-                pcall(require, vim.fs.joinpath(dir, cs_name))
-            end
-        end
+  for name, type in vim.fs.dir(config_dir) do
+    if type == 'file' and name:match('%.lua$') and name ~= 'init.lua' then
+      local cs_name = name:gsub('%.lua$', '')
+      if !contains(ignore, cs_name) then
+        pcall(require, vim.fs.joinpath(dir, cs_name))
+      end
     end
+  end
 end
 
 -- Show and optionally delete unused plugins added with vim.pack
 function M.pack_clean()
-    local unused_plugin_names = {}
+  local unused_plugin_names = {}
 
-    for _, plugin in ipairs(vim.pack.get()) do
-        if not plugin.active then
-            table.insert(unused_plugin_names, plugin.spec.name)
-        end
+  for _, plugin in ipairs(vim.pack.get()) do
+    if not plugin.active then
+      table.insert(unused_plugin_names, plugin.spec.name)
     end
+  end
 
-    if #unused_plugin_names == 0 then
-        print('No unused plugins')
-        return
-    end
+  print(#unused_plugin_names, 'unused plugins')
 
-    print(#unused_plugin_names, 'unused plugins:')
-    for _, plugin_name in ipairs(unused_plugin_names) do
-        print(plugin_name)
-    end
+  if #unused_plugin_names == 0 then
+    return
+  end
 
-    local choice = vim.fn.confirm('Remove unused plugins?', '&Yes\n&No', 2)
-    if choice == 1 then
-        vim.pack.del(unused_plugin_names)
-    end
+  for _, plugin_name in ipairs(unused_plugin_names) do
+    print(plugin_name)
+  end
+
+  local choice = vim.fn.confirm('Remove unused plugins?', '&Yes\n&No', 2)
+  if choice == 1 then
+    vim.pack.del(unused_plugin_names)
+  end
 end
 
 -- Align multicursors - https://github.com/neovim/neovim/discussions/41626
@@ -65,10 +65,10 @@ function M.align_cursors()
   local pcursor = vim.pos.cursor()
   local nlines = vim.api.nvim_buf_line_count(buf)
   local cursors = vim
-    .iter(ext_cursors)
-    :filter(function(m) return m[2] < nlines end)
-    :map(function(m) return vim.pos.extmark(buf, m[2], m[3]) end)
-    :totable()
+  .iter(ext_cursors)
+  :filter(function(m) return m[2] < nlines end)
+  :map(function(m) return vim.pos.extmark(buf, m[2], m[3]) end)
+  :totable()
   cursors[#cursors + 1] = pcursor
   cursors = vim.iter(cursors):unique(function(p) return ("%d:%d"):format(p.row, p.col) end):totable()
 

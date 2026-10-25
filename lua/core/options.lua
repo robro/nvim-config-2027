@@ -3,6 +3,7 @@ vim.o.relativenumber = true      -- Make line numbers relative
 vim.o.wrap           = false     -- Disable line wrapping
 vim.o.tabstop        = 4         -- Number of spaces per tab
 vim.o.shiftwidth     = 4         -- Auto indent width
+vim.o.softtabstop    = 4
 vim.o.expandtab      = true      -- Turn Tab key into spaces in insert mode
 vim.o.ignorecase     = true      -- Case insensitive search
 vim.o.signcolumn     = 'yes'     -- Always display sign column
