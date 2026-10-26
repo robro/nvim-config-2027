@@ -7,9 +7,10 @@ map('n', '<leader>q', '<Cmd>quit<CR>',    { desc = 'Quit'})
 map('n', '<leader>Q', '<Cmd>quitall<CR>', { desc = 'Quit all'})
 
 -- Clipboard
-map({'n', 'v', 'x'}, 'y', '"+y', { desc = 'Yank to clipboard' })
-map({'n', 'v', 'x'}, 'd', '"+d', { desc = 'Delete to clipboard' })
-map({'n', 'v', 'x'}, 'p', '"+p', { desc = 'Put from clipboard' })
+-- TODO: fix so it works properly with multicursors
+-- map({'n', 'v', 'x'}, 'y', '"+y', { desc = 'Yank to clipboard' })
+-- map({'n', 'v', 'x'}, 'd', '"+d', { desc = 'Delete to clipboard' })
+-- map({'n', 'v', 'x'}, 'p', '"+p', { desc = 'Put from clipboard' })
 
 -- Yank entire buffer
 map('n', '<C-y>', 'ggVGy<C-o>', { desc = 'Yank entire buffer' })
